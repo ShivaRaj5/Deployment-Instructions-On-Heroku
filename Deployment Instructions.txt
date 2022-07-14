@@ -1,0 +1,23 @@
+Steps to deploy your app on Heroku --- >>>
+1. First of all create a seperate client and server folder for frontend and backend.
+2. When your app is ready, push the client folder into server folder.
+3. Go to server/client folder and write command npm run build, it will build the custom deployment environment for production.
+4. Write this into your server's app.js/index.js file --- >>> 
+	if(process.env.NODE_ENV=="production"){
+    		app.use(express.static("client/build"));
+	}
+5. Make sure that there should not be a get or post or any request to "/" otherwise it will render the server's "/" route than client's "/" route.
+6. Remove the proxy from client's package.json because client and server are running on same port so we do not need any proxy to send the request.
+7. If there is any request in client's ".js" file "localhost:5000/getdata" then change it to "/getdata".
+8. After all these things have been done, to deploy our app on heroku make sure to delete the package-lock.json file of server.
+9. Remove port number from .env file and write port name in your server's index.js file as --->>>
+	const PORT=process.env.PORT || 5000
+10. Login to heroku and create a new app.
+11. Click on the settings then click on the reveal config vars and write all the key-value pairs of your server's .env file into it.
+12. Make sure that your MERN app is not already a git repository if it is so delete .git file.
+13. Go to your MERN app then to /server --- >>> 
+	npm init
+	heroku git:clone -a <mern-app> 
+	git add .
+	git commit -am "All files have been added"
+	git push heroku master
